@@ -1,2 +1,5 @@
-# MachineLearning_ITAcademy
-Ejercicios realizados en el upskilling "Machine Learning" de IT Academy (Barcelona Activa)
+### Sprint 0. Instalación y configuración del entorno de trabajo para ML
+
+### Sprint 1. Estadística para ML
+
+### Sprint 2. Conceptos y fundamentos de ML
