@@ -92,15 +92,16 @@ for col in required_columns:
 # Reordenar las columnas
 user_encoded_data = user_encoded_data[required_columns]
 
-# Estandarizar las entradas
-user_encoded_standardized_data = scaler.transform(user_encoded_data[['age', 'balance']])
+# Estandarizar las entradas de edad y saldo
+scale_variable = ['age', 'balance']
+user_encoded_data[scale_variable] = scaler.transform(user_encoded_data[scale_variable])
 
 # Verificar las dimensiones antes de predecir
-st.write(f"Dimensiones de los datos escalados: {user_encoded_standardized_data.shape}")
+st.write(f"Dimensiones de los datos escalados: {user_encoded_data.shape}")
 st.write(f"El modelo espera {model.n_features_in_} características.")
 
 # Realizar la predicción
-prediction = model.predict(user_encoded_standardized_data)
+prediction = model.predict(user_encoded_data)
 
 
 # Mostrar la predicción
