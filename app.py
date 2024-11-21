@@ -17,30 +17,28 @@ st.title('Predicción de Suscripción a Depósito de los Clientes')
 # Entrada de datos demográficos del usuario
 st.header('Datos Demográficos')
 
-age = st.number_input('Edad:', min_value=0, max_value=125)
+age = st.number_input('Edad', min_value=16, max_value=125)
 
-job = st.selectbox('Trabajo:', 
+job = st.selectbox('Trabajo', 
                    ('management', 'blue-collar', 'technician', 'admin.', 
                     'services', 'housemaid', 'self-employed', 'entrepreneur',
-                    'unemployed', 'retired', 'student'),
-                  index=None, placeholder='Selecciona un trabajo...',)
-st.write('Has seleccionado: ', job)
+                    'unemployed', 'retired', 'student'))
 
-marital = st.radio('Estado civil:', ['single', 'married', 'divorced'])
+marital = st.radio('Estado civil', ['single', 'married', 'divorced'])
 
-education = st.radio('Educación:', ['primary', 'secondary', 'tertiary'])
+education = st.radio('Educación', ['primary', 'secondary', 'tertiary'])
 
 
 # Entrada de datos financieros del usuario
 st.header('Datos Financieros')
 
-balance = st.number_input('Saldo:')
+balance = st.number_input('Saldo')
 
-default = st.radio('Incumplimiento de Crédito:', ['no', 'yes'])
+default = st.radio('Incumplimiento de Crédito', ['no', 'yes'])
 
-housing = st.radio('Hipoteca:', ['no', 'yes'])
+housing = st.radio('Hipoteca', ['no', 'yes'])
 
-loan = st.radio('Préstamo personal:', ['no', 'yes'])
+loan = st.radio('Préstamo personal', ['no', 'yes'])
 
 
 # Crear un DataFrame con las entradas
@@ -76,6 +74,7 @@ grouped_jobs = {'management': 'management',
 user_data['job'] = user_data['job'].map(grouped_jobs)
 
 user_encoded_data = pd.get_dummies(user_data, columns=['job', 'marital'])
+user_encoded_data = user_encoded_data.astype(int) # Para transformar el resultado dummies False/True a binario 0/1
 
 # Asegurar que las columnas están en el orden correcto
 required_columns = [
