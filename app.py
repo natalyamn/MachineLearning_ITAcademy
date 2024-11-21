@@ -11,34 +11,34 @@ with open('scaler.pkl', 'rb') as scaler_file:
 
 
 # Título de la aplicación
-st.title('Predicción de Suscripción a Depósito de los Clientes')
+st.title('Customer Term Deposit Subscription Prediction')
 
 
 # Entrada de datos demográficos del usuario
-st.header('Datos Demográficos')
+st.header('Demographic Data')
 
-age = st.number_input('Edad', min_value=16, max_value=125)
+age = st.number_input('Age:', min_value=16, max_value=125)
 
-job = st.selectbox('Trabajo', 
+job = st.selectbox('Job:', 
                    ('management', 'blue-collar', 'technician', 'admin.', 
                     'services', 'housemaid', 'self-employed', 'entrepreneur',
                     'unemployed', 'retired', 'student'))
 
-marital = st.radio('Estado civil', ['single', 'married', 'divorced'])
+marital = st.radio('Marital:', ['single', 'married', 'divorced'])
 
-education = st.radio('Educación', ['primary', 'secondary', 'tertiary'])
+education = st.radio('Education:', ['primary', 'secondary', 'tertiary'])
 
 
 # Entrada de datos financieros del usuario
-st.header('Datos Financieros')
+st.header('Financial Data')
 
-balance = st.number_input('Saldo')
+balance = st.number_input('Balance:')
 
-default = st.radio('Incumplimiento de Crédito', ['no', 'yes'])
+default = st.radio('Credit Default:', ['no', 'yes'])
 
-housing = st.radio('Hipoteca', ['no', 'yes'])
+housing = st.radio('Housing:', ['no', 'yes'])
 
-loan = st.radio('Préstamo personal', ['no', 'yes'])
+loan = st.radio('Personal Loan:', ['no', 'yes'])
 
 
 # Crear un DataFrame con las entradas
@@ -74,7 +74,7 @@ grouped_jobs = {'management': 'management',
 user_data['job'] = user_data['job'].map(grouped_jobs)
 
 user_encoded_data = pd.get_dummies(user_data, columns=['job', 'marital'])
-user_encoded_data = user_encoded_data.astype(int) # Para transformar el resultado dummies False/True a binario 0/1
+user_encoded_data = user_encoded_data.astype(int) # Para transformar el resultado del dummies False/True a binario 0/1
 
 # Asegurar que las columnas están en el orden correcto
 required_columns = [
@@ -96,17 +96,13 @@ user_encoded_data = user_encoded_data[required_columns]
 scale_variable = ['age', 'balance']
 user_encoded_data[scale_variable] = scaler.transform(user_encoded_data[scale_variable])
 
-# Verificar las dimensiones antes de predecir
-st.write(f"Dimensiones de los datos escalados: {user_encoded_data.shape}")
-st.write(f"El modelo espera {model.n_features_in_} características.")
-
 # Realizar la predicción
 prediction = model.predict(user_encoded_data)
 
 
 # Mostrar la predicción
-st.header('Resultado de la Predicción')
+st.header('Prediction Result')
 if prediction == 1: 
-    st.success('El cliente probablemente SÍ contratará un depósito a plazo.')
+    st.success('The customer probably WILL SUBSCRIBE to a term deposit.')
 else:
-    st.error('El cliente probablemente NO contratará un depósito a plazo.')
+    st.error('The customer probably WILL NOT SUBSCRIBE to a term deposit.')
