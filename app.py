@@ -95,6 +95,10 @@ user_encoded_data = user_encoded_data[required_columns]
 # Estandarizar las entradas
 user_encoded_standardized_data = scaler.transform(user_encoded_data[['age', 'balance']])
 
+# Verificar las dimensiones antes de predecir
+st.write(f"Dimensiones de los datos escalados: {user_encoded_standardized_data.shape}")
+st.write(f"El modelo espera {model.n_features_in_} características.")
+
 # Realizar la predicción
 prediction = model.predict(user_encoded_standardized_data)
 
